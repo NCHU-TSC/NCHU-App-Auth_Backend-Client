@@ -2,6 +2,8 @@ package app.nchu.auth;
 
 public class UserInfo {
 
+    private String id;
+    private String token;
     private String loginId;
     private String name;
     private String email;
@@ -14,8 +16,10 @@ public class UserInfo {
     public UserInfo() {
     }
 
-    public UserInfo(String loginId, String name, String email, Boolean emailVerified,
+    public UserInfo(String id, String token,String loginId, String name, String email, Boolean emailVerified,
                     String gender, String department, String grade, String photo) {
+        this.id = id;
+        this.token = token;
         this.loginId = loginId;
         this.name = name;
         this.email = email;
@@ -24,6 +28,22 @@ public class UserInfo {
         this.department = department;
         this.grade = grade;
         this.photo = photo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getLoginId() {

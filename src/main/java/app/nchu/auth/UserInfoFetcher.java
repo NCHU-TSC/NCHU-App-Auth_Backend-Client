@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 public class UserInfoFetcher {
@@ -57,10 +58,23 @@ public class UserInfoFetcher {
                     throw new StatusException(reason.get("code").getAsString(), reason.get("description").getAsString(),
                             reason.get("detail").getAsString());
                 }
+
+                JsonObject responseData = jsonObject.getAsJsonObject("data");
+
+                UserInfo userInfo = new UserInfo();
+                userInfo.setId(user_id);
+                userInfo.setToken(res_token);
+                userInfo.setLoginId(responseData.get("Login_ID") == JsonNull.INSTANCE ? null : responseData.get("Login_ID").getAsString());
+                userInfo.setName(responseData.get("Name") == JsonNull.INSTANCE ? null : responseData.get("Name").getAsString());
+                userInfo.setEmail(responseData.get("Email") == JsonNull.INSTANCE ? null : responseData.get("Email").getAsString());
+                userInfo.setEmailVerified(responseData.get("Valid_Email").getAsBoolean());
+                userInfo.setGender(responseData.get("Gender") == JsonNull.INSTANCE ? null : responseData.get("Gender").getAsString());
+                userInfo.setDepartment(responseData.get("Department") == JsonNull.INSTANCE ? null : responseData.get("Department").getAsString());
+                userInfo.setGrade(responseData.get("Grade") == JsonNull.INSTANCE ? null : responseData.get("Grade").getAsString());
+                userInfo.setPhoto(responseData.get("Photo") == JsonNull.INSTANCE ? null : responseData.get("Photo").getAsString());
     
                 // Return the UserInfo object
-                return gson.fromJson(jsonObject.getAsJsonObject("data"), UserInfo.class);
-    
+                return userInfo;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
